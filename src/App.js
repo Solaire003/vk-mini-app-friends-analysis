@@ -25,6 +25,8 @@ const App = () => {
       setUser(user);
       setPopout(null);
     }
+
+    console.log('TEST')
     fetchData();
   }, []);
 
