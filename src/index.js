@@ -12,7 +12,7 @@ const init = async () => {
     app_id: 7648263,
     scope: 'friends,status',
   });
-  console.log(token);
+  console.log('TOKEN',token);
 };
 init();
 

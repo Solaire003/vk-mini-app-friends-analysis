@@ -6,13 +6,17 @@ import '@vkontakte/vkui/dist/vkui.css';
 
 import Home from './panels/Home';
 import Persik from './panels/Persik';
+import {getFriends} from "./utils/getFrineds";
 
 const App = () => {
   const [activePanel, setActivePanel] = useState('home');
   const [fetchedUser, setUser] = useState(null);
+  const [friends, setFriends] = useState([]);
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
-  console.log(fetchedUser);
-  useEffect(() => {
+
+  console.log('USER', fetchedUser);
+
+  useEffect( () => {
     bridge.subscribe(({ detail: { type, data } }) => {
       if (type === 'VKWebAppUpdateConfig') {
         const schemeAttribute = document.createAttribute('scheme');
@@ -20,24 +24,27 @@ const App = () => {
         document.body.attributes.setNamedItem(schemeAttribute);
       }
     });
+
     async function fetchData() {
       const user = await bridge.send('VKWebAppGetUserInfo');
       setUser(user);
       setPopout(null);
+      const { response } = await getFriends()
+      setFriends(response.items)
     }
-
-    console.log('TEST')
     fetchData();
+
   }, []);
 
   const go = (e) => {
     setActivePanel(e.currentTarget.dataset.to);
   };
+  console.log('friends',friends)
 
   return (
     <View activePanel={activePanel} popout={popout}>
       <Home id="home" fetchedUser={fetchedUser} go={go} />
-      <Persik id="persik" go={go} />
+      <Persik id="persik" go={go} friends={friends} />
     </View>
   );
 };
