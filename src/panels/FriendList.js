@@ -8,10 +8,11 @@ import Icon24Back from "@vkontakte/icons/dist/24/back";
 import "./Persik.css";
 import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
 import Group from "@vkontakte/vkui/dist/components/Group/Group";
+import Div from "@vkontakte/vkui/dist/components/Div/Div";
 
 const osName = platform();
 
-const Persik = ({ id, go, friends = [] }) => (
+const FriendList = ({ id, go, friends }) => (
   <Panel id={id}>
     <PanelHeader
       left={
@@ -24,10 +25,11 @@ const Persik = ({ id, go, friends = [] }) => (
     </PanelHeader>
     <Group>
       <List>
+        {!friends && <Div>Упс, что-то пошло не так</Div>}
         {friends.map((el) => {
           return (
-            <Cell key={el.id} before={<Avatar src={el.photo_100} />}>
-              {el.first_name + " " + el.last_name}
+            <Cell expandable key={el.id} before={<Avatar src={el.photo_100} />}>
+              {`${el.first_name} ${el.last_name}`}
             </Cell>
           );
         })}
@@ -36,4 +38,4 @@ const Persik = ({ id, go, friends = [] }) => (
   </Panel>
 );
 
-export default Persik;
+export default FriendList;
