@@ -21,7 +21,7 @@ const Home = ({ id, fetchedUser, friends }) => {
           <Cell
             before={
               fetchedUser.photo_200 ? (
-                <Avatar src={fetchedUser.photo_200} />
+                <Avatar src={fetchedUser.photo_200}/>
               ) : null
             }
             description={
@@ -48,27 +48,27 @@ const Home = ({ id, fetchedUser, friends }) => {
           {!friends && <Div>Упс, что-то пошло не так</Div>}
           {!filterValue.length
             ? friends.map((el) => {
-                return (
-                  <Cell
-                    expandable
-                    key={el.id}
-                    before={<Avatar src={el.photo_100} />}
-                  >
-                    {`${el.first_name} ${el.last_name}`}
-                  </Cell>
-                );
-              })
+              return (
+                <Cell
+                  expandable
+                  key={el.id}
+                  before={<Avatar src={el.photo_100}/>}
+                >
+                  {`${el.first_name} ${el.last_name}`}
+                </Cell>
+              );
+            })
             : filterValue.map((el) => {
-                return (
-                  <Cell
-                    expandable
-                    key={el.id}
-                    before={<Avatar src={el.photo_100} />}
-                  >
-                    {`${el.first_name} ${el.last_name}`}
-                  </Cell>
-                );
-              })}
+              return (
+                <Cell
+                  expandable
+                  key={el.id}
+                  before={<Avatar src={el.photo_100}/>}
+                >
+                  {`${el.first_name} ${el.last_name}`}
+                </Cell>
+              );
+            })}
         </List>
       </Group>
     </Panel>

@@ -4,13 +4,13 @@ import View from "@vkontakte/vkui/dist/components/View/View";
 import ScreenSpinner from "@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner";
 import "@vkontakte/vkui/dist/vkui.css";
 import Home from "./panels/Home";
-import { getFriends } from "./utils/getFrineds";
+import {getFriends} from "./utils/getFrineds";
 
 const App = () => {
   const [activePanel, setActivePanel] = useState("home");
   const [fetchedUser, setUser] = useState(null);
   const [friends, setFriends] = useState([]);
-  const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
+  const [popout, setPopout] = useState(<ScreenSpinner size="large"/>);
 
   console.log("USER", fetchedUser);
 
@@ -46,7 +46,7 @@ const App = () => {
 
   return (
     <View activePanel={activePanel} popout={popout}>
-      <Home id="home" fetchedUser={fetchedUser} go={go} friends={friends} />
+      <Home id="home" fetchedUser={fetchedUser} go={go} friends={friends}/>
     </View>
   );
 };

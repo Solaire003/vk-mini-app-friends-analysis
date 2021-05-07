@@ -1,5 +1,5 @@
 import React from "react";
-import {platform, IOS} from "@vkontakte/vkui";
+import { platform, IOS } from "@vkontakte/vkui";
 import Panel from "@vkontakte/vkui/dist/components/Panel/Panel";
 import PanelHeader from "@vkontakte/vkui/dist/components/PanelHeader/PanelHeader";
 import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton";
@@ -15,7 +15,7 @@ const FriendList = ({ id, go, friends }) => (
     <PanelHeader
       left={
         <PanelHeaderButton onClick={go} data-to="home">
-          {osName === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
+          {osName === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
         </PanelHeaderButton>
       }
     >
