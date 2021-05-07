@@ -1,5 +1,5 @@
 import React from "react";
-import { platform, IOS, List, Cell } from "@vkontakte/vkui";
+import {platform, IOS, List, Cell, Input} from "@vkontakte/vkui";
 import Panel from "@vkontakte/vkui/dist/components/Panel/Panel";
 import PanelHeader from "@vkontakte/vkui/dist/components/PanelHeader/PanelHeader";
 import PanelHeaderButton from "@vkontakte/vkui/dist/components/PanelHeaderButton/PanelHeaderButton";
@@ -24,16 +24,7 @@ const FriendList = ({ id, go, friends }) => (
       Friend List
     </PanelHeader>
     <Group>
-      <List>
-        {!friends && <Div>Упс, что-то пошло не так</Div>}
-        {friends.map((el) => {
-          return (
-            <Cell expandable key={el.id} before={<Avatar src={el.photo_100} />}>
-              {`${el.first_name} ${el.last_name}`}
-            </Cell>
-          );
-        })}
-      </List>
+
     </Group>
   </Panel>
 );
