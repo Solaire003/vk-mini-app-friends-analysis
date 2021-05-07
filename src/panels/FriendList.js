@@ -10,7 +10,7 @@ import Group from "@vkontakte/vkui/dist/components/Group/Group";
 
 const osName = platform();
 
-const FriendList = ({ id, go, friends }) => (
+const FriendList = ({ id, go }) => (
   <Panel id={id}>
     <PanelHeader
       left={
