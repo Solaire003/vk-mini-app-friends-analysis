@@ -4,7 +4,7 @@ import View from "@vkontakte/vkui/dist/components/View/View";
 import ScreenSpinner from "@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner";
 import "@vkontakte/vkui/dist/vkui.css";
 import Home from "./panels/Home";
-import {getFriends} from "./utils/getFrineds";
+import { apiRequest } from "./utils/ApiServiceVK";
 
 const App = () => {
   const [activePanel, setActivePanel] = useState("home");
@@ -30,7 +30,8 @@ const App = () => {
 
       const user = await bridge.send("VKWebAppGetUserInfo");
       setUser(user);
-      const { response } = await getFriends(token);
+      const { response } = await apiRequest.getFriends(token);
+      console.log(response)
       setFriends(response.items);
       setPopout(null);
     }
