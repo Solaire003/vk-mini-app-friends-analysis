@@ -35,7 +35,8 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-redux": "^7.2.4",
-    "redux": "^4.1.0"
+    "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0"
   },
   "peerDependencies": {
     "@babel/runtime": "^7.5.5",

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import bridge from "@vkontakte/vk-bridge";
 import View from "@vkontakte/vkui/dist/components/View/View";
 import ScreenSpinner from "@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner";
@@ -11,8 +12,9 @@ const App = () => {
   const [fetchedUser, setUser] = useState(null);
   const [friends, setFriends] = useState([]);
   const [popout, setPopout] = useState(<ScreenSpinner size="large"/>);
-
+  const store = useSelector(state => state.user)
   console.log("USER", fetchedUser);
+  console.log("store", store);
 
   useEffect(() => {
     async function fetchData() {
@@ -31,11 +33,9 @@ const App = () => {
       const user = await bridge.send("VKWebAppGetUserInfo");
       setUser(user);
       const { response } = await apiRequest.getFriends(token);
-      console.log(response)
       setFriends(response.items);
       setPopout(null);
     }
-
     fetchData();
   }, []);
 
