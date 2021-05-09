@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import bridge from "@vkontakte/vk-bridge";
 import store from "./store";
 import App from "./App";
+import { ConfigProvider, AdaptivityProvider, AppRoot } from "@vkontakte/vkui";
 
 // Init VK  Mini App
 const init = async () => {
@@ -14,9 +15,15 @@ const init = async () => {
 init();
 
 const Root = (
-  <Provider store={store}>
-    <App/>
-  </Provider>
+  <ConfigProvider>
+    <AdaptivityProvider>
+      <AppRoot>
+        <Provider store={store}>
+          <App/>
+        </Provider>
+      </AppRoot>
+    </AdaptivityProvider>
+  </ConfigProvider>
 )
 
 ReactDOM.render(Root, document.getElementById("root"));
