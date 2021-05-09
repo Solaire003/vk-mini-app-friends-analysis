@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import Panel from "@vkontakte/vkui/dist/components/Panel/Panel";
-import PanelHeader from "@vkontakte/vkui/dist/components/PanelHeader/PanelHeader";
-import Group from "@vkontakte/vkui/dist/components/Group/Group";
-import Cell from "@vkontakte/vkui/dist/components/Cell/Cell";
-import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
-import { Input, List } from "@vkontakte/vkui";
+import { Input, List, Avatar, Cell, PanelHeader, Panel, Group } from "@vkontakte/vkui";
 import { useSelector } from "react-redux";
 
 const Home = ({ id }) => {
