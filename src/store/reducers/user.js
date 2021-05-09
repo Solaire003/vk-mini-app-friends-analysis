@@ -1,10 +1,10 @@
-const initialState = {}
+const initialState = null
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case "STATE_CHANGE":
-      return action.payload;
-    case "STATE_RESET":
+    case "USER_CHANGE":
+      return { ...action.payload, ...state };
+    case "USER_RESET":
       return initialState;
     default:
       return state

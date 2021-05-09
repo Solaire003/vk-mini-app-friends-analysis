@@ -1,5 +1,5 @@
 import user from './user'
-import friends from './friendList'
+import friends from './friends'
 
 export default {
   user,

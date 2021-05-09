@@ -9,21 +9,17 @@ import App from "./App";
 
 // Init VK  Mini App
 const init = async () => {
-  bridge.send("VKWebAppInit");
-  const token = await bridge.send("VKWebAppGetAuthToken", {
-    app_id: 7648263,
-    scope: "friends,status",
-  });
-  console.log("TOKEN", token);
+  await bridge.send("VKWebAppInit");
 };
 init();
 
-const Root =
+const Root = () => (
   <Provider store={store}>
     <App/>
   </Provider>
+)
 
-ReactDOM.render(Root, document.getElementById("root"));
+ReactDOM.render(Root(), document.getElementById("root"));
 if (process.env.NODE_ENV === "development") {
   import("./eruda").then(({ default: eruda }) => {
   }); //runtime download
