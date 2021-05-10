@@ -20,10 +20,9 @@ const App = () => {
           document.body.attributes.setNamedItem(schemeAttribute);
         }
       });
-      setPopout(null);
     }
 
-    fetchData()
+    fetchData().then(() => setPopout(null))
   }, []);
 
   const go = (e) => {

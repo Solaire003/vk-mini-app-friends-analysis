@@ -9,6 +9,20 @@ const Actions = {
     Actions.change(response);
   },
 
+  getUserWall: async (id) => {
+    const { response } = await apiRequest.getUserWall(id)
+    console.log(response)
+    Actions.change({ wall: response });
+  },
+
+  getUserPhotos: async (id) => {
+    // const { response } = await apiRequest.getUserAlbums(id)
+    const { response } = await apiRequest.getUserPhotos(id)
+    console.log(response)
+
+    Actions.change({ photos: response });
+  },
+
   change: (payload) => {
     store.dispatch({
       type: FRIENDS_CHANGE,
