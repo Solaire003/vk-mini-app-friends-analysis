@@ -15,9 +15,16 @@ const Actions = {
     Actions.change({ wall: response });
   },
 
-  getUserPhotos: async (id) => {
-    // const { response } = await apiRequest.getUserAlbums(id)
-    const { response } = await apiRequest.getUserPhotos(id)
+  // getUserPhotos: async (id) => {
+  //   // const { response } = await apiRequest.getUserAlbums(id)
+  //   const { response } = await apiRequest.getUserPhotos(id)
+  //   console.log(response)
+  //
+  //   Actions.change({ photos: response });
+  // },
+
+  getAllPhotos: async (id) => {
+    const { response } = await apiRequest.getAllPhotos(id)
     console.log(response)
 
     Actions.change({ photos: response });

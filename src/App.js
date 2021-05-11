@@ -3,16 +3,16 @@ import bridge from "@vkontakte/vk-bridge";
 import { View, ScreenSpinner } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 import Home from "./panels/Home";
-import actions from '../src/store/actions'
+import actions from "../src/store/actions";
 
 const App = () => {
   const [activePanel, setActivePanel] = useState("home");
-  const [popout, setPopout] = useState(<ScreenSpinner size="large"/>);
+  const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
   useEffect(() => {
     async function fetchData() {
-      await actions.user.getUserInfo()
-      await actions.friends.getFriends()
+      await actions.user.getUserInfo();
+      await actions.friends.getFriends();
       bridge.subscribe(({ detail: { type, data } }) => {
         if (type === "VKWebAppUpdateConfig") {
           const schemeAttribute = document.createAttribute("scheme");
@@ -22,7 +22,7 @@ const App = () => {
       });
     }
 
-    fetchData().then(() => setPopout(null))
+    fetchData().then(() => setPopout(null));
   }, []);
 
   const go = (e) => {
@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <View activePanel={activePanel} popout={popout}>
-      <Home id="home" go={go}/>
+      <Home id="home" go={go} />
     </View>
   );
 };

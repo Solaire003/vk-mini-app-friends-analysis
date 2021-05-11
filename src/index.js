@@ -19,15 +19,14 @@ const Root = (
     <AdaptivityProvider>
       <AppRoot>
         <Provider store={store}>
-          <App/>
+          <App />
         </Provider>
       </AppRoot>
     </AdaptivityProvider>
   </ConfigProvider>
-)
+);
 
 ReactDOM.render(Root, document.getElementById("root"));
 if (process.env.NODE_ENV === "development") {
-  import("./eruda").then(({ default: eruda }) => {
-  }); //runtime download
+  import("./eruda").then(({ default: eruda }) => {}); //runtime download
 }
