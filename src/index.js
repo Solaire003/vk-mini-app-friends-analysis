@@ -11,6 +11,13 @@ import { ConfigProvider, AdaptivityProvider, AppRoot } from "@vkontakte/vkui";
 // Init VK  Mini App
 const init = async () => {
   await bridge.send("VKWebAppInit");
+  bridge.subscribe(({ detail: { type, data } }) => {
+    if (type === "VKWebAppUpdateConfig") {
+      const schemeAttribute = document.createAttribute("scheme");
+      schemeAttribute.value = data.scheme ? data.scheme : "client_light";
+      document.body.attributes.setNamedItem(schemeAttribute);
+    }
+  });
 };
 init();
 

@@ -1,4 +1,4 @@
-const initialState = {}
+const initialState = {};
 
 export default function friendsReducer(state = initialState, action) {
   switch (action.type) {
@@ -7,6 +7,6 @@ export default function friendsReducer(state = initialState, action) {
     case "FRIENDS_RESET":
       return initialState;
     default:
-      return state
+      return state;
   }
 }

@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import Icon16Clear from "@vkontakte/icons/dist/16/clear";
 import actions from "../store/actions";
 
-const Home = ({ id }) => {
+const Home = ({ id, go }) => {
   const { items } = useSelector((state) => state.friends);
   const user = useSelector((state) => state.user);
 

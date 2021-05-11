@@ -1,4 +1,4 @@
-const initialState = null
+const initialState = null;
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
@@ -7,6 +7,6 @@ export default function userReducer(state = initialState, action) {
     case "USER_RESET":
       return initialState;
     default:
-      return state
+      return state;
   }
 }

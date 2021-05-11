@@ -1,17 +1,17 @@
 import apiRequest from "../../utils/ApiServiceVK";
-import store from '../index'
+import store from "../index";
 
-const FRIENDS_CHANGE = 'FRIENDS_CHANGE';
+const FRIENDS_CHANGE = "FRIENDS_CHANGE";
 
 const Actions = {
   getFriends: async () => {
-    const { response } = await apiRequest.getFriends()
+    const { response } = await apiRequest.getFriends();
     Actions.change(response);
   },
 
   getUserWall: async (id) => {
-    const { response } = await apiRequest.getUserWall(id)
-    console.log(response)
+    const { response } = await apiRequest.getUserWall(id);
+    console.log(response);
     Actions.change({ wall: response });
   },
 
@@ -24,8 +24,8 @@ const Actions = {
   // },
 
   getAllPhotos: async (id) => {
-    const { response } = await apiRequest.getAllPhotos(id)
-    console.log(response)
+    const { response } = await apiRequest.getAllPhotos(id);
+    console.log(response);
 
     Actions.change({ photos: response });
   },
@@ -33,9 +33,9 @@ const Actions = {
   change: (payload) => {
     store.dispatch({
       type: FRIENDS_CHANGE,
-      payload
-    })
-  }
-}
+      payload,
+    });
+  },
+};
 
 export default Actions;
