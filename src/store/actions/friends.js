@@ -11,7 +11,6 @@ const Actions = {
 
   getUserWall: async (id) => {
     const { response } = await apiRequest.getUserWall(id);
-    console.log(response);
     Actions.change({ wall: response });
   },
 

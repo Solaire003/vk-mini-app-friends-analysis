@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Input,
   List,
@@ -19,6 +19,13 @@ const Home = ({ id, go }) => {
 
   const textInput = React.createRef();
   const clear = () => (textInput.current.value = "");
+
+  const getFriendInfo = async (id) => {
+    await Promise.all([
+      actions.friends.getAllPhotos(id),
+      actions.friends.getUserWall(id),
+    ]);
+  };
 
   return (
     <Panel id={id}>
@@ -56,14 +63,15 @@ const Home = ({ id, go }) => {
         <List>
           {items &&
             items.map((el) => {
+              const { id, photo_100, first_name, last_name } = el;
               return (
                 <Cell
                   expandable
-                  key={el.id}
-                  before={<Avatar src={el.photo_100} />}
-                  onClick={() => actions.friends.getAllPhotos(el.id)}
+                  key={id}
+                  before={<Avatar src={photo_100} />}
+                  onClick={() => getFriendInfo(id)}
                 >
-                  {`${el.first_name} ${el.last_name}`}
+                  {`${first_name} ${last_name}`}
                 </Cell>
               );
             })}

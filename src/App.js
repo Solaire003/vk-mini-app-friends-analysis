@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import bridge from "@vkontakte/vk-bridge";
 import { View, ScreenSpinner } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 import Home from "./panels/Home";
@@ -10,12 +9,10 @@ const App = () => {
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
   useEffect(() => {
-    async function fetchData() {
-      await actions.user.getUserInfo();
-      await actions.friends.getFriends();
-    }
-
-    fetchData().then(() => setPopout(null));
+    actions.user
+      .getUserInfo()
+      .then(() => actions.friends.getFriends())
+      .then(() => setPopout(null));
   }, []);
 
   const go = (e) => {
