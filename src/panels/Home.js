@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Input,
   List,
@@ -20,7 +20,7 @@ const Home = ({ id }) => {
   const textInput = React.createRef();
   const clear = () => (textInput.current.value = "");
 
-  const getFriendInfo = async (id, e) => {
+  const getFriendInfo = async (id) => {
     await Promise.all([
       actions.friends.getAllPhotos(id),
       actions.friends.getUserWall(id),
@@ -70,8 +70,7 @@ const Home = ({ id }) => {
                   expandable
                   key={id}
                   before={<Avatar src={photo_100} />}
-                  onClick={(e) => getFriendInfo(id, e)}
-                  data-to="dashboard"
+                  onClick={() => getFriendInfo(id)}
                 >
                   {`${first_name} ${last_name}`}
                 </Cell>

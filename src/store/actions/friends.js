@@ -11,7 +11,7 @@ const Actions = {
 
   getUserWall: async (id) => {
     const { response } = await apiRequest.getUserWall(id);
-    Actions.change({ wall: response });
+    Actions.change({ wall: response.items });
   },
 
   // getUserPhotos: async (id) => {
@@ -24,9 +24,8 @@ const Actions = {
 
   getAllPhotos: async (id) => {
     const { response } = await apiRequest.getAllPhotos(id);
-    console.log(response);
-
-    Actions.change({ photos: response });
+    const photos = response.items.map(({ sizes }) => sizes);
+    Actions.change({ photos });
   },
 
   change: (payload) => {
