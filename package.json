@@ -36,8 +36,11 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-redux": "^7.2.4",
+    "react-responsive-carousel": "^3.2.18",
+    "react-slick": "^0.28.1",
     "redux": "^4.1.0",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "slick-carousel": "^1.8.1"
   },
   "peerDependencies": {
     "@babel/runtime": "^7.5.5",

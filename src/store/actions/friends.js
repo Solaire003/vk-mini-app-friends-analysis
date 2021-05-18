@@ -14,6 +14,16 @@ const Actions = {
     Actions.change({ wall: response.items });
   },
 
+  getFriendInfo: async (id) => {
+    const { response } = await apiRequest.getFriendInfo(id);
+    Actions.change({ currentFriend: response[0] });
+  },
+
+  getMutualFriends: async (id) => {
+    const { response: mutualFriends } = await apiRequest.getMutualFriends(id);
+    Actions.change({ mutualFriends });
+  },
+
   // getUserPhotos: async (id) => {
   //   // const { response } = await apiRequest.getUserAlbums(id)
   //   const { response } = await apiRequest.getUserPhotos(id)

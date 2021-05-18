@@ -19,8 +19,8 @@ const App = () => {
 
   return (
     <View activePanel={activePanel} popout={popout}>
-      <Home id="home" />
-      <Dashboard id="dashboard" />
+      <Home id="home" setPopout={setPopout} />
+      <Dashboard id="dashboard" setPopout={setPopout} />
     </View>
   );
 };
