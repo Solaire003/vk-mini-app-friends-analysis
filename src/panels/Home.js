@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Input,
   List,
@@ -45,9 +45,23 @@ const ErrorModal = ({ setPopout, text }) => {
 const Home = ({ id, setPopout }) => {
   const { items } = useSelector((state) => state.friends);
   const user = useSelector((state) => state.user);
+  const clear = () => setSearchTerm("");
 
-  const textInput = React.createRef();
-  const clear = () => (textInput.current.value = "");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
+  useEffect(() => {
+    const results =
+      items &&
+      items.filter(
+        (el) =>
+          el.first_name.toLowerCase().includes(searchTerm) ||
+          el.last_name.toLowerCase().includes(searchTerm)
+      );
+    setSearchResults(results);
+  }, [searchTerm, items]);
 
   const getFriendInfo = async (id) => {
     setPopout(<ScreenSpinner size="large" />);
@@ -85,9 +99,9 @@ const Home = ({ id, setPopout }) => {
         <FormItem>
           <Input
             disabled={!items}
-            getRef={textInput}
             type="text"
-            defaultValue=""
+            value={searchTerm}
+            onChange={handleChange}
             after={
               <IconButton
                 hoverMode="opacity"
@@ -101,8 +115,8 @@ const Home = ({ id, setPopout }) => {
         </FormItem>
 
         <List>
-          {items &&
-            items.map((el) => {
+          {searchResults &&
+            searchResults.map((el) => {
               const { id, photo_100, first_name, last_name } = el;
               return (
                 <Cell
