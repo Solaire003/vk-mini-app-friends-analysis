@@ -15,7 +15,9 @@ import {
 } from "@vkontakte/vkui";
 import { useSelector } from "react-redux";
 import Icon16Clear from "@vkontakte/icons/dist/16/clear";
-import actions from "../store/actions";
+
+import actions from "../../store/actions";
+import apiRequest from "../../utils/ApiServiceVK";
 
 const ErrorModal = ({ setPopout, text }) => {
   return (
@@ -42,44 +44,42 @@ const ErrorModal = ({ setPopout, text }) => {
   );
 };
 
-const Home = ({ id, setPopout }) => {
-  const { items } = useSelector((state) => state.friends);
+export const Home = ({ id, setPopout, friends, setFriend, setAnalise }) => {
   const user = useSelector((state) => state.user);
   const clear = () => setSearchTerm("");
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
   const handleChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
   };
   useEffect(() => {
     const results =
-      items &&
-      items.filter(
+      friends &&
+      friends.filter(
         (el) =>
           el.first_name.toLowerCase().includes(searchTerm) ||
           el.last_name.toLowerCase().includes(searchTerm)
       );
     setSearchResults(results);
-  }, [searchTerm, items]);
+  }, [searchTerm, friends]);
 
   const getFriendInfo = async (id) => {
-    setPopout(<ScreenSpinner size="large" />);
+    setPopout(true);
     await Promise.all([
-      actions.friends.getAllPhotos(id),
-      actions.friends.getUserWall(id),
-      actions.friends.getFriendInfo(id),
-      actions.friends.getMutualFriends(id),
-    ])
-      .then(() => {
-        setPopout(null);
-        actions.activePanel.change("dashboard");
-      })
-      .catch((e) => {
-        const msg = e.error_data.error_reason?.error_msg || "Ошибка(";
-        console.log(`ERROR`, e);
-        setPopout(<ErrorModal setPopout={setPopout} text={msg} />);
-      });
+      //res[0]
+      apiRequest.getFriendInfo(id),
+      //res[1]
+      apiRequest.getAllPhotos(id),
+      //res[2]
+      apiRequest.getMutualFriends(id),
+    ]).then((res) => {
+      // console.log(`FRIEND`, res);
+      setFriend(res);
+      setPopout();
+      actions.activePanel.change("dashboard");
+    });
   };
 
   return (
@@ -98,7 +98,7 @@ const Home = ({ id, setPopout }) => {
       <Group>
         <FormItem>
           <Input
-            disabled={!items}
+            disabled={!friends}
             type="text"
             value={searchTerm}
             onChange={handleChange}
@@ -133,5 +133,3 @@ const Home = ({ id, setPopout }) => {
     </Panel>
   );
 };
-
-export default Home;

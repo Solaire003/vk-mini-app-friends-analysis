@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Panel,
   Group,
@@ -8,8 +8,6 @@ import {
   PanelHeaderButton,
   platform,
   IOS,
-  CardGrid,
-  ContentCard,
   Header,
   Avatar,
   PanelHeaderContent,
@@ -17,18 +15,26 @@ import {
   InfoRow,
   HorizontalScroll,
   HorizontalCell,
-  ScreenSpinner,
 } from "@vkontakte/vkui";
-import { useSelector } from "react-redux";
-import actions from "../store/actions";
+import Slider from "react-slick";
+import actions from "../../store/actions";
 import { Icon24Back, Icon28ChevronBack } from "@vkontakte/icons";
 import "./Dasboard.css";
+import apiRequest from "../../utils/ApiServiceVK";
+import { detectImage, getResult } from "../../utils/FaceApi";
 
-const Dashboard = ({ id, setPopout }) => {
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+export const Dashboard = ({ id, setPopout, currentFriend, setFriend }) => {
+  const [data, setData] = useState();
   const osName = platform();
-  const photos = useSelector((state) => state.friends).photos.slice(0, 4);
-  const { currentFriend } = useSelector((state) => state.friends);
-  const { mutualFriends } = useSelector((state) => state.friends);
+
+  const friendInfo = currentFriend[0].response[0];
+  const friendPhotos = currentFriend[1].response.items;
+  const mutualFriends = currentFriend[2].response;
+
+  const photos = friendPhotos.slice(0, 4);
   const {
     city,
     country,
@@ -42,7 +48,32 @@ const Dashboard = ({ id, setPopout }) => {
     education_status,
     faculty_name,
     university_name,
-  } = currentFriend;
+  } = friendInfo;
+
+  if (!data) {
+    detectImage(friendPhotos).then((res) => {
+      setData(getResult(res));
+    });
+  }
+
+  console.log(`photos`, data);
+
+  const getFriendInfo = async (id) => {
+    setData(null);
+    setPopout(true);
+    await Promise.all([
+      //res[0]
+      apiRequest.getFriendInfo(id),
+      //res[1]
+      apiRequest.getAllPhotos(id),
+      //res[2]
+      apiRequest.getMutualFriends(id),
+    ]).then((res) => {
+      setFriend(res);
+      setPopout();
+      actions.activePanel.change("dashboard");
+    });
+  };
 
   return (
     <Panel id={id}>
@@ -50,9 +81,7 @@ const Dashboard = ({ id, setPopout }) => {
         left={
           <PanelHeaderButton
             onClick={() => {
-              setPopout(<ScreenSpinner size="large" />);
               actions.activePanel.change("home");
-              setTimeout(() => document.location.reload(), 500);
             }}
           >
             {osName === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
@@ -66,7 +95,6 @@ const Dashboard = ({ id, setPopout }) => {
           {`${first_name} ${last_name}`}
         </PanelHeaderContent>
       </PanelHeader>
-
       <Group>
         <Header mode="secondary">Информация о пользователе</Header>
         {bdate && (
@@ -123,10 +151,14 @@ const Dashboard = ({ id, setPopout }) => {
             getScrollToRight={(i) => i + 120}
           >
             <div style={{ display: "flex" }}>
-              {mutualFriends.map(({ photo_100, first_name }) => {
+              {mutualFriends.map(({ photo_100, first_name, id }) => {
                 return (
                   <HorizontalCell size="s" header={first_name} key={photo_100}>
-                    <Avatar size={osName === "ios" ? 64 : 56} src={photo_100} />
+                    <Avatar
+                      size={osName === "ios" ? 64 : 56}
+                      src={photo_100}
+                      onClick={() => getFriendInfo(id)}
+                    />
                   </HorizontalCell>
                 );
               })}
@@ -139,20 +171,49 @@ const Dashboard = ({ id, setPopout }) => {
         <Group header={<Header>Последние фото</Header>}>
           <CardScroll size="s">
             {photos.map((photo, i) => {
-              const url = photo[photo.length - 1].url;
+              const url = photo.sizes.pop().url;
               return (
-                <Card
-                  className="card"
-                  key={i}
-                  style={{
-                    textAlign: "center",
-                    backgroundImage: `url(${url})`,
-                    paddingBottom: "44%",
-                  }}
-                />
+                <Card className="card" key={i}>
+                  <img
+                    src={url}
+                    style={{
+                      maxWidth: "100%",
+                    }}
+                  />
+                </Card>
               );
             })}
           </CardScroll>
+
+          {data &&
+            data.map((el) => {
+              const settings = {
+                dots: true,
+                infinite: false,
+                speed: 500,
+                slidesToShow: el.length <= 3 ? el.length : 4,
+                slidesToScroll: el.length <= 3 ? 1 : 3,
+              };
+
+              return (
+                <Group header={<Header>{el[0].expresion}</Header>}>
+                  <Slider {...settings}>
+                    {el.map((photo) => {
+                      return (
+                        <Card className="card" key={photo.url}>
+                          <img
+                            src={photo.url}
+                            style={{
+                              maxWidth: "100%",
+                            }}
+                          />
+                        </Card>
+                      );
+                    })}
+                  </Slider>
+                </Group>
+              );
+            })}
         </Group>
       )}
 
@@ -179,5 +240,3 @@ const Dashboard = ({ id, setPopout }) => {
     </Panel>
   );
 };
-
-export default Dashboard;
